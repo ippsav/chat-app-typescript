@@ -1,0 +1,21 @@
+version: "3"
+services:
+  reddit-service:
+    build:
+      context: "."
+      dockerfile: "./reddit-server/Dockerfile"
+    ports:
+      - "7001:7001"
+      - "5555:5555"
+    depends_on:
+      - reddit-database
+    volumes:
+      - ./reddit-server:/opt/app
+
+  reddit-database:
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=db
+    image: mysql:5.7.20
+    ports:
+      - "7101:3306"
